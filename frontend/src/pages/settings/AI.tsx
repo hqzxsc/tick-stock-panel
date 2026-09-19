@@ -52,10 +52,12 @@ const codexModelLabel = (model?: string, effort?: string) => {
   return effortLabel ? `${modelLabel} · ${effortLabel}` : modelLabel
 }
 
-type AiPreset = { label: string; provider?: string; url: string; model: string; codexCommand?: string; website: string; websiteLabel: string; description: string; custom?: boolean }
+type AiPreset = { label: string; provider?: string; url: string; model: string; models?: string[]; codexCommand?: string; website: string; websiteLabel: string; description: string; custom?: boolean }
 
 const PRESETS: AiPreset[] = [
   { label: '自定义', url: '', model: '', website: '', websiteLabel: '', description: '不自动填充任何配置，完全手动填写 API 地址、模型和密钥。', custom: true },
+  {"label": "MiniMax", "url": "https://api.minimax.io/v1", "model": "MiniMax-M3", "models": ["MiniMax-M3", "MiniMax-M2.7"], "website": "https://platform.minimax.io/docs", "websiteLabel": "platform.minimax.io", "description": "MiniMax API with selectable text models."},
+  {"label": "MiniMax (China)", "url": "https://api.minimaxi.com/v1", "model": "MiniMax-M3", "models": ["MiniMax-M3", "MiniMax-M2.7"], "website": "https://platform.minimaxi.com/docs", "websiteLabel": "platform.minimaxi.com", "description": "MiniMax API with selectable text models."},
   { label: 'OpenAI', provider: OPENAI_PROVIDER, url: 'https://api.openai.com/v1', model: DEFAULT_OPENAI_MODEL, website: 'https://platform.openai.com/', websiteLabel: 'platform.openai.com', description: 'OpenAI 官方接口，可单独配置模型支持的推理强度。' },
   { label: 'DeepSeek', url: 'https://api.deepseek.com', model: 'deepseek-v4-pro', website: 'https://www.deepseek.com/', websiteLabel: 'deepseek.com', description: 'DeepSeek 官方 OpenAI 兼容接口。' },
   { label: '通义千问', url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'qwen-3.6plus', website: 'https://tongyi.aliyun.com/', websiteLabel: 'tongyi.aliyun.com', description: '阿里云 DashScope 兼容模式接口。' },
@@ -414,7 +416,10 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
                   <input type="text" value={baseUrl} onChange={e => handleBaseUrlChange(e.target.value)} placeholder="https://api.zhaji.dev/v1" className={INPUT_CLS} />
                 </Field>
                 <Field label="模型">
-                  <input type="text" value={model} onChange={e => handleModelChange(e.target.value)} placeholder="gpt-5.6-sol" className={INPUT_CLS} />
+                  <input type="text" value={model} list={selectedPreset.models ? 'ai-preset-models' : undefined} onChange={e => handleModelChange(e.target.value)} placeholder="gpt-5.6-sol" className={INPUT_CLS} />
+                  {selectedPreset.models && <datalist id="ai-preset-models">
+                    {selectedPreset.models.map(value => <option key={value} value={value} />)}
+                  </datalist>}
                 </Field>
               </div>
 
