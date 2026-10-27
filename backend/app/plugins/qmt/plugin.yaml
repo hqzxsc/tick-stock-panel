@@ -1,0 +1,8 @@
+name: qmt
+display_name: "MiniQMT"
+runtime: python
+entry: app.plugins.qmt.provider:QMTProvider
+check: app.plugins.qmt.bridge:availability
+datasets: [daily, minute, realtime, instruments, adj_factor, depth5]
+description: "基于迅投 MiniQMT / xtquant 的行情与标的数据源。实时覆盖沪深京A股(北交所快照视行情源而定)与指数快照(核心指数+规则指数按需补拉); 指数/ETF 历史日K与财务仍回退 TickFlow"
+install_hint: "请确保已安装 xtquant 库 (如 pip install xtquant)"

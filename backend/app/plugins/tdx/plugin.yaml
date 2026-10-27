@@ -1,0 +1,8 @@
+name: tdx
+display_name: "TdxQuant"
+runtime: python
+entry: app.plugins.tdx.provider:TDXProvider
+check: app.plugins.tdx.bridge:availability
+datasets: [daily, adj_factor, minute, realtime, instruments]
+description: "基于通达信 TdxQuant (tqcenter.py) 的行情与标的数据源，需本地运行通达信客户端；实时覆盖沪深京A股与指数快照，ETF 实时未覆盖"
+install_hint: "请确保通达信客户端已安装并运行，且 PYPlugins/user/tqcenter.py 存在"
